@@ -1,0 +1,38 @@
+int tTime = 0;
+
+String[] dTime = departureTime.split(":");
+int cHour = Integer.parseInt(dTime[0]);
+int cMin = Integer.parseInt(dTime[1]);
+
+int sLoc = Integer.parseInt(start.subString(1));
+int eLoc = Integer.parseInt(end.subString(1));
+tTime = 240 * Math.abs(eLoc - sLoc);
+
+int toBusTime = 240 * Math.min(Math.abs(1 - sLoc), Math.abs(12 - sLoc));
+int fromBusTime = 240 * Math.min(Math.abs(1 - eLoc), Math.abs(12 - eLoc));
+int wTime = 60 * (10 - (cMin + (int)(toBusTime / 60) % 10));
+int bTime = 220 + toBusTime + fromBusTime + wTime;
+
+tTime = Math.min(bTime, tTime);
+
+int biSttLoc = sLoc;
+int sTime = Integer.MAX_VALUE;
+
+for(int i=0; i < station.length; i++) {
+  int bLoc = Integer.parseInt(station[i].substring[1]);
+  int temp = 240 * Math.abs(bLoc - sLoc);
+  if(sTime > temp) {
+    sTime = temp;
+    biSttLoc = bLoc;
+  }
+}
+
+for(int i=0; i < station.length; i++) {
+  int bLoc = Integer.parseInt(station[i].substring[1]);
+  if( bLoc != sLoc) {
+    int biTime = 70 * Math.abs(bLoc - biSttLoc) + 240 * Math.abs(eLoc - bLoc) + sTime;
+    if(tTime > biTime){
+      tTime = biTime;
+    }
+  }
+}
