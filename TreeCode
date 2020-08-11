@@ -19,14 +19,10 @@ public class RunManager {
 	public static void main(String[] args) {
 		
 		try {
-			/*
 			scanner = new Scanner(System.in);
 			String inputId = scanner.next();
 			String inputTime = scanner.next();
 			int inputSec = getSec(inputTime);
-			*/
-			String inputId = "001";
-			int inputSec = 570;
 			
 //			String inputId = "004";
 //			int inputSec = 930;
@@ -57,17 +53,13 @@ public class RunManager {
 				result += count + " " + key + "\n";
 			}
 			
-			System.out.println("result");
-			System.out.println(result);
-			
-			/*
 			File file = new File("./OUTPUT/CHECK.txt");
 			FileWriter fileWriter = new FileWriter(file);
 			fileWriter.write(result);
 			
 			fileWriter.flush();
 			fileWriter.close();
-			*/
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -75,32 +67,18 @@ public class RunManager {
 	}
 
 	public static void effect(String inputId, int inputSec, List<String> lst) {
-//		List<String> aList = new ArrayList<String>();
-//		for (int i = 0; i < list.size(); i++) {
-//			aList.add(list.get(i));
-//		}
-//		aList.addAll(list);
-		
-//		System.out.println("inputSec : " + inputSec);
 		List<String> effectList = new ArrayList<String>();
-//		for (int i = 0; i < list.size(); i++) {
 		for (int i = list.size() - 1; i >= 0; i--) {
 			String line = list.get(i);
-//			System.out.println(i + " : " + list.get(i) );
 			String[] data = line.split(" ");
 			String id = data[0];
 			int startTime = getSec(data[1]);
 			int endTime = getSec(data[2]);
-//			String place = data[3];
 			if(inputId.equalsIgnoreCase(id)) {
-//				System.out.println(line);
-//				System.out.println("startTime : " + startTime);
 				if(inputSec <= startTime) {
-//					System.out.println(line);
 					effectList.add(line);
 					list.remove(i);
 				}else if(startTime <= inputSec && inputSec <= endTime) {
-//					System.out.println(line);
 					String min = inputSec/60 > 9 ? "" + inputSec/60 : "0" + inputSec/60;
 					String sec = inputSec%60 > 9 ? "" + inputSec%60 : "0" + inputSec%60;
 					String sTime = min + ":" + sec;
@@ -109,33 +87,25 @@ public class RunManager {
 				}
 			}
 		}
-//		System.out.println("inputId : " + inputId);
-//		System.out.println("list size : " + list.size());
 		
 		TreeMap<String, Integer> eMap = new TreeMap<String, Integer>();
 		
 		for (int i = 0; i < effectList.size(); i++) {
 			String eLine = effectList.get(i);
-//			System.out.println("i : " + i + " : " + eLine );
 			String[] eData = eLine.split(" ");
 			String id1 = eData[0];
 			int startTime1 = getSec(eData[1]);
 			int endTime1 = getSec(eData[2]);
 			String place1 = eData[3];
-//			System.out.println("=================");
-//			System.out.println("place1 : " + place1);
 			
 			for (int j = 0; j < list.size(); j++) {
 				String aLine = list.get(j);
-//				System.out.println("j : " + j + " : " + aLine );
 				String[] aData = aLine.split(" ");
 				String id2 = aData[0];
 				int startTime2 = getSec(aData[1]);
 				int endTime2 = getSec(aData[2]);
 				String place2 = aData[3];
-//				System.out.println("place2 : " + place2);
 				if(place2.equalsIgnoreCase(place1) && !id2.equalsIgnoreCase(id1)) {
-//					System.out.println("i : " + i + " : " + eLine );
 					if(startTime2 < startTime1 && startTime1 < endTime2) {
 //						System.out.println("id:" + id2 + ", time:" + startTime1);
 						eMap.put(id2, startTime1);
@@ -154,24 +124,6 @@ public class RunManager {
 			}
 		}
 		
-//		for (int i = 0; i < list.size(); i++) {
-//			String line = list.get(i);
-//			String[] data = line.split(" ");
-//			String id = data[0];
-////			System.out.println("iId : " + iId + ", id : " + id);
-////			if(inputId == id) {
-////				System.out.println("inputId : " + inputId + ", id : " + id);
-////				list.remove(i);
-////			}
-//			
-//			if(inputId.equalsIgnoreCase(id)) {
-//				System.out.println("inputId : " + inputId + ", id : " + id);
-//				aList.remove(i);
-//			}
-//		}
-		
-//		System.out.println("aList size : " + aList.size());
-		
 		int cnt = 0;
 		if(eMap.size() == 0) {
 			zeroMap.put(inputId, 0);
@@ -180,34 +132,23 @@ public class RunManager {
 			for(String key : eMap.keySet()) {
 				cnt++;
 			}
+			
 			for (int j = 0; j < lst.size(); j++) {
 				String eId = lst.get(j);
 				if(treeMap.containsKey(eId)) {
-					treeMap.put(inputId, treeMap.get(eId) + cnt);
+					treeMap.put(eId, treeMap.get(eId) + cnt);
 				} else {
-					treeMap.put(inputId, cnt);
+					treeMap.put(eId, cnt);
 				}
 			}
 			
 			for(String key : eMap.keySet()) {
-				lst.add(key);
-				effect(key, eMap.get(key), lst);
+				List<String> newList = new ArrayList<String>();
+				newList.addAll(lst);
+				newList.add(key);
+				effect(key, eMap.get(key), newList);
 			}
 			
-			/*
-			for(String key : eMap.keySet()) {
-				for (int j = 0; j < lst.size(); j++) {
-					String eId = lst.get(j);
-					if(treeMap.containsKey(eId)) {
-						treeMap.put(inputId, treeMap.get(eId) + 1);
-					} else {
-						treeMap.put(inputId, 1);
-					}
-				}
-				lst.add(key);
-				effect(key, eMap.get(key), lst);
-			}
-			*/
 		}
 	}
 	
