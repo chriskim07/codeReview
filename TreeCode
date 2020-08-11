@@ -19,10 +19,13 @@ public class RunManager {
 	public static void main(String[] args) {
 		
 		try {
-			scanner = new Scanner(System.in);
-			String inputId = scanner.next();
-			String inputTime = scanner.next();
-			int inputSec = getSec(inputTime);
+//			scanner = new Scanner(System.in);
+//			String inputId = scanner.next();
+//			String inputTime = scanner.next();
+//			int inputSec = getSec(inputTime);
+			
+			String inputId = "001";
+			int inputSec = 570;
 			
 //			String inputId = "004";
 //			int inputSec = 930;
@@ -52,13 +55,14 @@ public class RunManager {
 				String count = cnt > 9 ? "" + cnt : "0" + cnt;
 				result += count + " " + key + "\n";
 			}
+			System.out.println(result);
 			
-			File file = new File("./OUTPUT/CHECK.txt");
-			FileWriter fileWriter = new FileWriter(file);
-			fileWriter.write(result);
-			
-			fileWriter.flush();
-			fileWriter.close();
+//			File file = new File("./OUTPUT/CHECK.txt");
+//			FileWriter fileWriter = new FileWriter(file);
+//			fileWriter.write(result);
+//			
+//			fileWriter.flush();
+//			fileWriter.close();
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -105,7 +109,7 @@ public class RunManager {
 				int startTime2 = getSec(aData[1]);
 				int endTime2 = getSec(aData[2]);
 				String place2 = aData[3];
-				if(place2.equalsIgnoreCase(place1) && !id2.equalsIgnoreCase(id1)) {
+				if(place2.equalsIgnoreCase(place1) && !id2.equalsIgnoreCase(id1) && (Integer.valueOf(id1) <= Integer.valueOf(id2))) {
 					if(startTime2 < startTime1 && startTime1 < endTime2) {
 //						System.out.println("id:" + id2 + ", time:" + startTime1);
 						eMap.put(id2, startTime1);
